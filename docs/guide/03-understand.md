@@ -2,7 +2,7 @@
 
 Editing code you don't understand is how subtle regressions ship. pstack gives you four ways in. `/pstack:how` explains what the code does now. `/pstack:why` digs up the reasons it's shaped that way. `/pstack:teach` blends both into one explanation. `/pstack:recall` rebuilds your own recent context on a topic.
 
-![A detective studies a machine blueprint with a magnifying glass while robots fetch case files; the evidence board behind her links clues under /pstack:how and /why.](./images/understanding.jpg)
+![A detective studies a machine blueprint with a magnifying glass while robots fetch case files; the evidence board behind her links clues under /pstack:how and /pstack:why.](./images/understanding.jpg)
 
 ## Trace behavior with `/pstack:how`
 
@@ -11,14 +11,6 @@ Editing code you don't understand is how subtle regressions ship. pstack gives y
 ```
 
 Ask the question you actually have. [`/pstack:how`](../../skills/how/SKILL.md) reads the code and answers at the level of a senior engineer onboarding you onto the subsystem, with the runtime flow, the key types, and the non-obvious parts. For a big subsystem it fans out two to four read-only explorers first. For a narrow question it just reads and explains.
-
-`/pstack:how` can also push back on the design. Ask for Critique mode when you suspect the structure itself:
-
-```text
-/pstack:how explain the sync service, then critique its ownership boundaries
-```
-
-The explanation comes first, so the critique stays grounded in how the thing really works.
 
 ## Dig up history with `/pstack:why`
 

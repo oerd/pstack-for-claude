@@ -1,6 +1,6 @@
 # Conversion notes
 
-This is [pstack](https://github.com/cursor/plugins/tree/main/pstack) v0.14.8 by Lauren Tan, ported from the Cursor plugin format to the Claude Code plugin format. Upstream is MIT licensed and the skill content is otherwise unchanged.
+This is [pstack](https://github.com/cursor/plugins/tree/main/pstack) v0.15.2 by Lauren Tan, ported from the Cursor plugin format to the Claude Code plugin format. Upstream is MIT licensed and the skill content is otherwise unchanged.
 
 ## Packaging
 
@@ -53,7 +53,7 @@ Cursor lets a subagent run any vendor's model. Claude Code's `Agent` tool takes 
 | `grok-4.6-fast-xhigh` | `sonnet` |
 | `inherit-parent` / `auto` | `inherit` |
 
-Upstream's four-model review panels (interrogate reviewers, arena runners, architect runners, how critics) existed for cross-vendor diversity, which isn't available here. They are now three distinct models — `opus`, `fable`, `sonnet` — rather than four with a duplicate. `haiku` is left for generation-bound and mechanical roles; it is too weak for a review lane.
+Upstream's four-model review panels (interrogate reviewers, arena runners, architect runners) existed for cross-vendor diversity, which isn't available here. They are now three distinct models — `opus`, `fable`, `sonnet` — rather than four with a duplicate. `haiku` is left for generation-bound and mechanical roles; it is too weak for a review lane.
 
 `setup-pstack` was rewritten: there is no model set to detect and no rule file to write, so it presents the fixed four and writes plain config.
 
@@ -63,6 +63,7 @@ Upstream's four-model review panels (interrogate reviewers, arena runners, archi
 - **Cursor's built-in `create-skill`** — routed to `skill-creator` (`claude plugin install skill-creator@claude-plugins-official`), which is not bundled.
 - **Cursor's built-in `babysit`** — doesn't exist here, so the disambiguation warnings against it were removed. The babysit playbook itself is unchanged.
 - **`/loop`** — Claude Code has one, so these references stand.
+- **The reasoning budget** (`setup-pstack`'s `unlimited`/`large`/`medium`/`small` ask, added upstream in 0.15.2) — it works by rewriting the effort token inside a model slug, as in `grok-4.6-fast-xhigh`. Claude Code's model names carry no effort token and the `Agent` tool takes no budget parameter, so there is nothing to ask about and nothing to write. `setup-pstack` keeps asking only about models.
 
 ## Bundled from `cursor-team-kit`
 
@@ -88,3 +89,10 @@ claude plugin update pstack
 ```
 
 The port carries a `-cc.N` prerelease suffix on the upstream version, so `0.14.8-cc.1` is the first Claude Code build of upstream 0.14.8.
+
+## Keeping up with upstream
+
+`tools/convert.sh` applies every rule on this page, and `tools/check-conversion.sh`
+fails on anything that survived. The `upstream` branch carries the unconverted
+upstream subtree so a new release is a merge rather than a re-port. See
+[UPDATING.md](./UPDATING.md).

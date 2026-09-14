@@ -68,6 +68,53 @@ perl -0pi -e '
   s/Cursor\x27s `\/loop` command/Claude Code\x27s `\/loop` skill/g;
 ' -- $(cat "$LIST")
 
+# --- Platform adaptations ------------------------------------------------
+# Phrase-level rewrites where Claude Code has no equivalent of a Cursor
+# feature. These recur in every upstream release, so they live here rather
+# than being redone by hand at each merge. CONVERSION.md explains each one.
+perl -0pi -e '
+  # cursor-team-kit ships deslop/control-ui/control-cli; this port vendors them.
+  s/the `deslop` skill from the `cursor-team-kit` plugin/the **deslop** skill/g;
+  s/ from `cursor-team-kit`//g;
+
+  # Cursor cloud agents map onto Claude Code isolation modes.
+  s/One Cursor cloud agent per PR/One isolated subagent per PR (`isolation: "remote"` where the account has it, otherwise `isolation: "worktree"`)/g;
+  s/each a Cursor cloud agent/each an isolated subagent (`isolation: "remote"` where the account has it, otherwise `isolation: "worktree"`)/g;
+  s/\benvironment: "cloud"/isolation: "remote"/g;
+  s/\benvironment: "local"/isolation: "worktree"/g;
+  s/full Task schema including `environment`/full `Agent` schema including `isolation`/g;
+  s/`Task` calls/`Agent` calls/g;
+  s/\bTask subagent\b/Agent subagent/g;
+  s/\bone Task call\b/one `Agent` call/g;
+
+  # Cursor'"'"'s /goal survives turns; Claude Code has no standing-goal command,
+  # so the objective is written to GOAL.md and re-read every tick.
+  s/arm a `\/goal` with the full program objective\. The goal continues across turns until the (queue|chain) is done\./write the full program objective to `GOAL.md` in the run directory. Claude Code has no standing-goal command, so the file is the standing order: every tick re-reads it, and it holds until the $1 is done./g;
+  s/arm a `\/goal` with this exact text\./write the program goal to `GOAL.md` in the run directory with this exact text, and re-read it each tick./g;
+  s/the armed `\/goal`/`GOAL.md`/g;
+  s/the armed \/goal/GOAL.md/g;
+
+  # Cursor has a cloud-sleeper wake chain; Claude Code schedules routines.
+  s/(?:the existing |a )cloud-sleeper wake chain/a scheduled routine (`\/schedule`)/g;
+
+  # Transcripts live under ~/.claude/projects/<slug>/, and no system prompt
+  # names the path, so skills derive it from the working directory.
+  s/the active workspace.s `agent-transcripts\/` directory \(the system prompt names (?:this|the) path\)/`~\/.claude\/projects\/\$(pwd | tr \/ -)\/`/g;
+
+  # Cursor bundles create-skill; on Claude Code that is the skill-creator
+  # plugin, installed separately.
+  s/Cursor\x27s built-in `create-skill`/the `skill-creator` skill/g;
+  s/`create-skill`/`skill-creator`/g;
+
+  # Claude Code offers four models, not vendor families.
+  s/different model family/different model/g;
+
+  # Product names in prose that describe the running agent, not the origin.
+  s/After a Cursor restart/After a Claude Code restart/g;
+  s/restart Cursor/restart Claude Code/g;
+  s/the cloud agent.s status in the Cursor dashboard/a background agent\x27s status via `\/tasks`, `ListAgents`, or `TaskOutput`/g;
+' -- $(cat "$LIST")
+
 # Cross-references: Claude Code namespaces plugin skills, so /how becomes
 # /pstack:how. The negative lookbehind keeps paths like skills/how/SKILL.md
 # intact and makes a second run a no-op.

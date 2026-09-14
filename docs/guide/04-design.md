@@ -2,7 +2,7 @@
 
 One attempt at a hard design locks in the first shape the model thought of. `/pstack:architect` settles types and boundaries before implementation. `/pstack:arena` runs several attempts at the same brief and merges the best parts. `/pstack:interrogate` has other models try to break the result. When the job is coverage rather than design synthesis, `/pstack:swarm` fans out slices or races and aggregates their results.
 
-![Three robots draft competing bridge models at their own tables under /architect, /arena, and /pstack:interrogate panels, while a judge robot with a clipboard inspects skeptically.](./images/design.jpg)
+![Three robots draft competing bridge models at their own tables under /pstack:architect, /pstack:arena, and /pstack:interrogate panels, while a judge robot with a clipboard inspects skeptically.](./images/design.jpg)
 
 ## Settle the shape with `/pstack:architect`
 
@@ -24,7 +24,7 @@ By default it proceeds straight from the synthesized design into implementation.
 /pstack:arena take my prompt to the arena verbatim. i want to compare their proposals with yours.
 ```
 
-[`/pstack:arena`](../../skills/arena/SKILL.md) is the general tool underneath. N subagents attempt the same design or code brief in parallel, each writing to its own worktree or directory. A read-only judge, on a different model family when your configuration allows one, scores every candidate against a rubric. The coordinator reads each candidate end to end, picks a base, grafts in the best ideas from the losers, and verifies the result.
+[`/pstack:arena`](../../skills/arena/SKILL.md) is the general tool underneath. N subagents attempt the same design or code brief in parallel, each writing to its own worktree or directory. A read-only judge, on a different model when your configuration allows one, scores every candidate against a rubric. The coordinator reads each candidate end to end, picks a base, grafts in the best ideas from the losers, and verifies the result.
 
 ```mermaid
 flowchart LR

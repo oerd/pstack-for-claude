@@ -1,6 +1,6 @@
 # Route work through `/pstack:poteto-mode`
 
-`/pstack:poteto-mode` is the front door. You give it a goal, it matches one of twenty-two playbooks, copies that playbook's steps into the todo list, and calls the other skills as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.
+`/pstack:poteto-mode` is the front door. You give it a goal, it matches one of twenty-three playbooks, copies that playbook's steps into the todo list, and calls the other skills as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.
 
 ![A dispatcher pulls a switch lever to route robots on rail handcars toward lit gates, under a /pstack:poteto-mode departure board listing BUG FIX, FEATURE, and INVESTIGATION.](./images/router.jpg)
 
@@ -91,7 +91,7 @@ When you step away, say what done means and go:
 
 Work you'll review later routes through [`/pstack:figure-it-out`](../../skills/figure-it-out/SKILL.md), which designs the run's phases and keeps a [`/pstack:show-me-your-work`](../../skills/show-me-your-work/SKILL.md) decision log. [Run work while you sleep](./07-overnight.md) covers the full overnight contract.
 
-**Pitfall:** don't enumerate skills in your prompt ("use /how, then /architect, then /arena..."). The playbook already sequences them, and a hand-written sequence usually reorders or drops steps the playbook would have kept. Name a skill only when you want to override a specific choice.
+**Pitfall:** don't enumerate skills in your prompt ("use /pstack:how, then /pstack:architect, then /pstack:arena..."). The playbook already sequences them, and a hand-written sequence usually reorders or drops steps the playbook would have kept. Name a skill only when you want to override a specific choice.
 
 Read [`poteto-mode`](../../skills/poteto-mode/SKILL.md) itself for the full routing rules.
 
