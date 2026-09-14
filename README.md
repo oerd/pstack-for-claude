@@ -1,5 +1,18 @@
 # pstack
 
+> **This is a personal port.** [pstack](https://github.com/cursor/plugins/tree/main/pstack) is [@poteto](https://x.com/poteto)'s plugin for Cursor. I ported it to run as a Claude Code plugin. The skills are poteto's work. Everything below this line is the original README, edited only where Claude Code does things differently.
+>
+> You're welcome to use it:
+>
+> ```bash
+> claude plugin marketplace add oerd/pstack-for-claude
+> claude plugin install pstack@pstack-for-claude
+> ```
+>
+> Then run `/pstack:setup-pstack` to pick your models.
+>
+> [CONVERSION.md](./CONVERSION.md) has what changed and what got dropped. If something here is broken, it's my port, not the original plugin.
+
 i'm [poteto](https://x.com/poteto). i'm not a president or ceo, but i've worked with millions of lines of code at Meta, Netflix, and Cursor. i'm also on the react core team where i help build and maintain react compiler.
 
 there's a growing sense that ai writes too much slop code. i agree. i don't want to ship like a team of twenty slop artists. throughput without quality is not a goal i aspire to. if you want to go fast, go deep first. 
@@ -14,11 +27,9 @@ fork it. improve it. make it yours. PRs are welcome!
 
 ## install
 
-this is a Claude Code port of [pstack](https://github.com/cursor/plugins/tree/main/pstack), which is written for the Cursor agent. see [CONVERSION.md](./CONVERSION.md) for what changed and what was dropped.
-
 ```bash
-claude plugin marketplace add /Users/oerd/workbench
-claude plugin install pstack@workbench
+claude plugin marketplace add oerd/pstack-for-claude
+claude plugin install pstack@pstack-for-claude
 ```
 
 ## get started
