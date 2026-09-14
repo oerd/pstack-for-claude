@@ -29,7 +29,7 @@ For each candidate, read the first JSONL line and check that `message.content[0]
 
 ### 2. Spawn three reviewers in parallel
 
-One message, three `Agent` calls, `subagent_type: "general-purpose"`, explicit `model:` on each. Reviewers need MCP access for context lookups (tickets, chat threads, observability traces referenced in the transcript), so keep them on `"general-purpose"` rather than the MCP-less `"Explore"`. The prompt forbids file writes; the parent applies edits.
+One message, three `Agent` calls, `subagent_type: "pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run), explicit `model:` on each. Reviewers need MCP access for context lookups (tickets, chat threads, observability traces referenced in the transcript); both of those inherit every tool, unlike the MCP-less `"Explore"`. The prompt forbids file writes; the parent applies edits.
 
 | Lens | `model` | Prompt template |
 |---|---|---|
@@ -41,7 +41,7 @@ Pass each template verbatim, substituting the transcript path or digest where ma
 
 ### 3. Synthesize
 
-One `Agent` call, `subagent_type: "general-purpose"`, using your configured reflect-judgment model (default `fable`). The synthesizer's quality check includes spot-verifying citations, which can require MCP access, so keep it on `"general-purpose"`. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+One `Agent` call, `subagent_type: "pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run), using your configured reflect-judgment model (default `fable`). The synthesizer's quality check includes spot-verifying citations, which can require MCP access, so keep it off `"Explore"`. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 

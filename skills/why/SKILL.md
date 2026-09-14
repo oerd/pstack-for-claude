@@ -78,7 +78,7 @@ Aim for a complete **coverage map**, not a minimal one. Document the null, don't
 Launch all matching investigators in a single message so they run concurrently. Don't ask one agent to cover multiple MCPs.
 
 Subagent config (each):
-- `subagent_type`: `"general-purpose"`
+- `subagent_type`: `"pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run)
 - `model`: your configured why-investigators model (default `sonnet`)
 - Claude Code has no readonly mode, so nothing strips MCP access from an investigator. Investigators still shouldn't write anything. That's a posture set in the prompt, not a sandbox. Do not reach for `subagent_type: "Explore"` here: it is a read-only search agent without MCP tools, which disables MCP-backed investigators entirely.
 
@@ -122,9 +122,9 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 
 Spawn one synthesizer subagent:
 
-- `subagent_type`: `"general-purpose"`
+- `subagent_type`: `"pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run)
 - `model`: your configured why-synthesizer model (default `fable`)
-- The synthesizer's quality check spot-verifies citations, which can require MCP access. Keep it on `"general-purpose"`; `"Explore"` has no MCP tools and defeats that.
+- The synthesizer's quality check spot-verifies citations, which can require MCP access. `pstack-worker` declares no `tools`, so it inherits every tool including MCP; `"Explore"` has no MCP tools and defeats that.
 
 The synthesizer gets:
 1. The investigator findings, including any null results and any categories skipped with justification

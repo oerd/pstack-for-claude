@@ -27,7 +27,7 @@ Open a todolist with one entry per phase before launching anything.
 
 ## Phase B: Fan out
 
-Spawn all N workers in one message with `subagent_type: "general-purpose"`, `isolation: "worktree"`, and the configured model. Claude Code subagents already run in the background, so there is no flag to set for that. `isolation: "worktree"` gives each worker its own git worktree, which is what keeps N writers off each other's files. Omit `isolation` only when the worker must see the user's live checkout.
+Spawn all N workers in one message with `subagent_type: "pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run), `isolation: "worktree"`, and the configured model. Claude Code subagents already run in the background, so there is no flag to set for that. `isolation: "worktree"` gives each worker its own git worktree, which is what keeps N writers off each other's files. Omit `isolation` only when the worker must see the user's live checkout.
 
 `isolation: "remote"` runs a worker in a cloud environment instead. It is gated per account, so treat it as an upgrade rather than the default: try it when the swarm is large and the work is self-contained, and fall back to `"worktree"` if it is unavailable.
 

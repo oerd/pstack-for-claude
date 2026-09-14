@@ -44,7 +44,7 @@ Launch all reviewers in a single message using the Agent tool. Use the `interrog
 Claude Code subagents run Claude models only, so the panel varies by model rather than by vendor. Add a fourth reviewer on a repeated `opus` when the diff is judgment-heavy; `haiku` is too weak for a review lane.
 
 For each reviewer:
-- `subagent_type`: `"general-purpose"`
+- `subagent_type`: `"pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run)
 - `model`: the configured `interrogate reviewers` entry, or the table default with no configured line
 
 Claude Code has no readonly flag, so forbid file writes in the prompt instead; the parent applies every edit.

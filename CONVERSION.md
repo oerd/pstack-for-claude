@@ -57,13 +57,54 @@ Upstream's four-model review panels (interrogate reviewers, arena runners, archi
 
 `setup-pstack` was rewritten: there is no model set to detect and no rule file to write, so it presents the fixed four and writes plain config.
 
+## Reasoning budget
+
+Upstream's budget ask survives with its four labels unchanged. Only the way it
+is applied differs, and the ladder itself is identical: `max` > `xhigh` >
+`high` > `medium` > `low` is Claude Code's effort ladder too.
+
+| Upstream | Here |
+|---|---|
+| `unlimited — keep max` | `effort: max` |
+| `large — xhigh reasoning` | `effort: xhigh` |
+| `medium — high reasoning` | `effort: high` |
+| `small — medium reasoning` | `effort: medium` |
+
+Upstream applies a budget by rewriting the effort token inside each model slug,
+turning `claude-fable-5-1-thinking-max` into `claude-fable-5-1-thinking-medium`.
+Claude Code's four names carry no such token, so that whole algorithm — the
+ladder walk, the `fast`-suffix rule, the fallback to another detected slug — is
+gone.
+
+Instead the budget is a single `effort` value in an agent definition.
+`setup-pstack` writes `~/.claude/agents/pstack-worker.md`, and every pstack
+skill spawns `subagent_type: "pstack-worker"` rather than `"general-purpose"`.
+The `Agent` tool has no per-call effort parameter, so the agent definition is
+the only place a budget can live.
+
+Three things make that work without touching per-role models. A call-level
+`model` overrides the definition's, so each skill still passes its own model and
+a panel still runs three different ones from the one definition. Omitting
+`tools` inherits every tool, so the investigator and reviewer roles keep the MCP
+access they need — the thing `"Explore"` loses. And omitting `model` from the
+definition keeps model and budget as separate choices, exactly as upstream has
+them.
+
+The agent is generated rather than shipped, so a plugin update never overwrites
+a chosen budget. Skills name `"general-purpose"` as the fallback for an install
+where `setup-pstack` has not run yet.
+
+`effort` is not listed in the official plugin-dev agent-development skill, which
+documents `name`, `description`, `model`, `color` and `tools`. It is used by
+Anthropic's own `claude-security` plugin, so it is real in practice rather than
+a documented contract.
+
 ## Cursor features with no equivalent
 
 - **`/goal`** (a standing objective that survives turns) — the autopilot playbooks now write the objective to `GOAL.md` in the run directory and re-read it each tick.
 - **Cursor's built-in `create-skill`** — routed to `skill-creator` (`claude plugin install skill-creator@claude-plugins-official`), which is not bundled.
 - **Cursor's built-in `babysit`** — doesn't exist here, so the disambiguation warnings against it were removed. The babysit playbook itself is unchanged.
 - **`/loop`** — Claude Code has one, so these references stand.
-- **The reasoning budget** (`setup-pstack`'s `unlimited`/`large`/`medium`/`small` ask, added upstream in 0.15.2) — it works by rewriting the effort token inside a model slug, as in `grok-4.6-fast-xhigh`. Claude Code's model names carry no effort token and the `Agent` tool takes no budget parameter, so there is nothing to ask about and nothing to write. `setup-pstack` keeps asking only about models.
 
 ## Bundled from `cursor-team-kit`
 

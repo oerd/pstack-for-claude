@@ -21,7 +21,7 @@ When in doubt, take the simple path.
 
 Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn all explorers in a single message:
 
-- `subagent_type`: `"general-purpose"`
+- `subagent_type`: `"pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run)
 - `model`: your configured how-explorer model (default `sonnet`)
 
 Claude Code has no readonly flag, so forbid file writes in the prompt instead; the parent applies every edit.
@@ -32,7 +32,7 @@ Each explorer gets the prompt in `references/explorer-prompt.md` with its angle 
 
 Spawn one Agent subagent that explores and explains in one pass:
 
-- `subagent_type`: `"general-purpose"`
+- `subagent_type`: `"pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run)
 - `model`: your configured how-explainer model (default `fable`)
 
 Claude Code has no readonly flag, so forbid file writes in the prompt instead; the parent applies every edit.
@@ -43,7 +43,7 @@ Build its prompt from `references/explainer-prompt.md` without the explorer-find
 
 Once all explorers have returned, spawn one Agent subagent to synthesize their findings into one explanation:
 
-- `subagent_type`: `"general-purpose"`
+- `subagent_type`: `"pstack-worker"` (`"general-purpose"` if /pstack:setup-pstack has not run)
 - `model`: your configured how-explainer model (default `fable`)
 
 Claude Code has no readonly flag, so forbid file writes in the prompt instead; the parent applies every edit.
