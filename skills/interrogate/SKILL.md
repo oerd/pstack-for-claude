@@ -33,21 +33,23 @@ Write one clear paragraph. Reviewers challenge whether the work achieves the int
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers in a single message using the Task tool. Use the `interrogate reviewers` list from `~/.cursor/rules/pstack-models.mdc` when present, one reviewer per entry, extending or shrinking the Reviewer A/B/C/D labels below to the configured entry count; otherwise use the table defaults.
+Launch all reviewers in a single message using the Agent tool. Use the `interrogate reviewers` list from `~/.claude/pstack-models.md` when present, one reviewer per entry, extending or shrinking the Reviewer A/B/C/D labels below to the configured entry count; otherwise use the table defaults.
 
 | Subagent | Default model |
 |----------|---------------|
-| Reviewer A | `claude-fable-5-1-thinking-max` |
-| Reviewer B | `gpt-5.6-sol-max` |
-| Reviewer C | `grok-4.6-fast-xhigh` |
-| Reviewer D | `claude-opus-5-thinking-xhigh` |
+| Reviewer A | `opus` |
+| Reviewer B | `fable` |
+| Reviewer C | `sonnet` |
+
+Claude Code subagents run Claude models only, so the panel varies by model rather than by vendor. Add a fourth reviewer on a repeated `opus` when the diff is judgment-heavy; `haiku` is too weak for a review lane.
 
 For each reviewer:
-- `subagent_type`: `generalPurpose`
+- `subagent_type`: `"general-purpose"`
 - `model`: the configured `interrogate reviewers` entry, or the table default with no configured line
-- `readonly`: `true`
 
-If a model slug is rejected as unresolvable when you try to spawn the subagent, check the valid slugs in the Task tool's error message, pick the closest equivalent (prefer the highest-reasoning tier of the same family), spawn with the valid slug, and open a separate PR to update the configured value or default table. Do not block the review on the slug issue. If the configured value is `inherit-parent` or `auto`, omit `model` instead; never treat those aliases as broken slugs or enter this fallback for them.
+Claude Code has no readonly flag, so forbid file writes in the prompt instead; the parent applies every edit.
+
+If a model name is rejected, the Agent tool's error lists the valid set. Pick the closest equivalent, spawn with it, and open a separate PR to update the configured value or the default table. Do not block the review on it. `inherit` is not a model name: it means omit `model`, so never enter this fallback for it.
 
 Read `references/reviewer-prompt.md` and fill in the template with:
 1. The stated intent
