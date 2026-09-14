@@ -9,7 +9,7 @@ This is [pstack](https://github.com/cursor/plugins/tree/main/pstack) v0.15.2 by 
 | `.cursor-plugin/plugin.json` | `.claude-plugin/plugin.json` |
 | `displayName`, `logo`, `category`, `tags` | dropped — not in Claude's manifest schema |
 | `skills: "./skills/"`, `agents: "./agents/"` | dropped — Claude discovers `skills/` and `agents/` by convention. Declaring `agents` as a string fails validation; it must be a `.md` path or absent. |
-| installed with `/add-plugin pstack` | `claude plugin install pstack@workbench`, from the marketplace at the workbench root |
+| installed with `/add-plugin pstack` | `claude plugin marketplace add oerd/pstack-for-claude`, then `claude plugin install pstack@pstack-for-claude`. The repo carries its own `.claude-plugin/marketplace.json` serving the plugin from the repo root. |
 
 Skills are invoked as `/pstack:<skill>` — Claude Code namespaces plugin skills by plugin — so all 200-odd cross-references were rewritten.
 
@@ -82,11 +82,17 @@ Both are recoverable from upstream if Claude Code grows a webhook-routine equiva
 
 ## Updating the installed copy
 
-`claude plugin install` copies the tree into `~/.claude/plugins/cache/workbench/pstack/<version>/` rather than linking it, and `claude plugin update` is version-gated. After editing `workbench/pstack/`, bump `version` in `.claude-plugin/plugin.json` and run:
+`claude plugin install` copies the tree into `~/.claude/plugins/cache/<marketplace>/pstack/<version>/` rather than linking it, and `claude plugin update` is version-gated. So a change is only picked up after the version moves:
 
 ```bash
+# edit, then bump "version" in .claude-plugin/plugin.json
+git commit -am "..." && git push     # the marketplace resolves from GitHub
 claude plugin update pstack
 ```
+
+The push matters. Both marketplaces that serve this plugin resolve it from
+`github.com/oerd/pstack-for-claude`, so an unpushed local edit is invisible to
+the installed copy.
 
 The port carries a `-cc.N` prerelease suffix on the upstream version, so `0.14.8-cc.1` is the first Claude Code build of upstream 0.14.8.
 

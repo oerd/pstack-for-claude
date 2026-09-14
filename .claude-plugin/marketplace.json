@@ -1,0 +1,19 @@
+{
+  "name": "pstack-for-claude",
+  "owner": {
+    "name": "Oerd Cukalla",
+    "email": "oerd@gripable.co"
+  },
+  "description": "Claude Code port of Lauren Tan's pstack plugin for Cursor.",
+  "plugins": [
+    {
+      "name": "pstack",
+      "source": "./",
+      "description": "Rigorous agent workflows you can parallelize with confidence. Claude Code port of Lauren Tan's pstack plugin for Cursor.",
+      "category": "developer-tools",
+      "homepage": "https://github.com/oerd/pstack-for-claude",
+      "license": "MIT",
+      "keywords": ["pstack", "poteto-mode", "workflow", "principles", "review", "planning"]
+    }
+  ]
+}
